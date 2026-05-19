@@ -1,22 +1,3 @@
-Ik wilde hem direct bijwerken, maar de projectmap geeft nu op alle lees/schrijfacties:
-
-```text
-Operation not permitted
-```
-
-Ook met escalatie kon ik `README.md`, `index.html` en `app.js` niet lezen of aanpassen. Dus ik kan de README op dit moment niet in de map opslaan.
-
-Wat er niet meer klopt in de README:
-
-- De zichtbare uploadknop voor lokaal Excel/CSV-bestand is eruit.
-- Het linkerpaneel bevat nu alleen provincie-filter, thema-filter en legenda.
-- De demo gebruikt `data/initiatieven.csv`.
-- Er zijn themakleuren via `THEME_COLORS` in `app.js`.
-- De kaart gebruikt CARTO met fallback naar OpenStreetMap.
-- GitHub Pages vereist een publieke repo, tenzij je GitHub-plan private Pages ondersteunt.
-
-De actuele README zou grofweg deze structuur moeten hebben:
-
 ```md
 # Interactieve kaartdemo
 
@@ -56,4 +37,3 @@ Als filters en legenda zichtbaar zijn maar de kaart wit blijft, worden kaarttege
 - `https://tile.openstreetmap.org/8/132/83.png`
 ```
 
-De blokkade zit nu op filesystemniveau, niet in de README zelf. Heropenen van de map/project in Codex of Codex toegang geven tot deze map zou dit moeten oplossen.
