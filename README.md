@@ -22,12 +22,6 @@ Pas `data/initiatieven.csv` aan met deze kolommen:
 
 De marker-kleur komt uit de kolom `thema`. Kleuren staan in `app.js` bij `THEME_COLORS`.
 
-## GitHub Pages
-
-Gebruik een publieke repository, upload de bestanden naar de root, en zet Pages aan via:
-
-`Settings -> Pages -> Deploy from a branch -> main -> /root`
-
 ## Wit vlak in plaats van kaart
 
 Als filters en legenda zichtbaar zijn maar de kaart wit blijft, worden kaarttegels waarschijnlijk geblokkeerd. Test:
