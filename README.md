@@ -1,124 +1,59 @@
-# Interactieve kaart met Google Drive data
-
-Dit is een eenvoudig voorbeeld van een websitekaart met Leaflet. De data staat in een CSV-bestand dat je vanuit Google Sheets of Google Drive kunt publiceren.
-
-## Standalone testen
-
-Je kunt `index.html` direct openen in een browser. De demo gebruikt dan ingebouwde voorbeelddata.
-
-Wil je toch via een lokale server testen, dan kan dat ook:
-
-```bash
-python3 -m http.server 8080
-```
-
-Open daarna:
+Ik wilde hem direct bijwerken, maar de projectmap geeft nu op alle lees/schrijfacties:
 
 ```text
-http://127.0.0.1:8080/
+Operation not permitted
 ```
 
-De demo gebruikt standaard `data/initiatieven.csv`.
+Ook met escalatie kon ik `README.md`, `index.html` en `app.js` niet lezen of aanpassen. Dus ik kan de README op dit moment niet in de map opslaan.
 
-Omdat Leaflet via een CDN wordt geladen, heb je internet nodig om de kaartbibliotheek en de rustige CARTO-kaartlaag te zien. Voor `.xlsx`-bestanden gebruikt de demo SheetJS via een CDN. CSV-bestanden kunnen zonder die Excel-bibliotheek gelezen worden.
+Wat er niet meer klopt in de README:
 
-De kaartlaag staat in `app.js`:
+- De zichtbare uploadknop voor lokaal Excel/CSV-bestand is eruit.
+- Het linkerpaneel bevat nu alleen provincie-filter, thema-filter en legenda.
+- De demo gebruikt `data/initiatieven.csv`.
+- Er zijn themakleuren via `THEME_COLORS` in `app.js`.
+- De kaart gebruikt CARTO met fallback naar OpenStreetMap.
+- GitHub Pages vereist een publieke repo, tenzij je GitHub-plan private Pages ondersteunt.
 
-```js
-L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", ...)
-```
+De actuele README zou grofweg deze structuur moeten hebben:
 
-Wil je juist de gedetailleerdere standaardkaart, dan kun je die vervangen door:
+```md
+# Interactieve kaartdemo
 
-```js
-L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", ...)
-```
+Deze demo toont initiatieven in Friesland, Groningen en Drenthe op een interactieve Leaflet-kaart.
 
-## Lokale Excel- of CSV-data
+De data komt uit `data/initiatieven.csv`. De kaart toont markers, filters voor provincie en thema, pop-ups met meer informatie en een legenda met themakleuren.
 
-Gebruik de knop `Lokaal databestand` om een `.xlsx`, `.xls` of `.csv` te kiezen. Het bestand blijft lokaal in de browser; er wordt niets geüpload.
+## Demo openen
 
-Het eerste tabblad van het Excel-bestand moet deze kolommen bevatten:
+Open `index.html` in een browser.
 
-```text
-titel, omschrijving, provincie, plaats, thema, lat, lng, url, zichtbaar
-```
+Internet is nodig voor Leaflet en de kaarttegels. De demo gebruikt CARTO en valt automatisch terug op OpenStreetMap als CARTO niet laadt.
 
-`zichtbaar` mag `ja` of `nee` zijn. Rijen met `nee` worden niet getoond.
+## Data aanpassen
 
-De markerkleur wordt automatisch bepaald op basis van de waarde in de kolom `thema`. De standaardkleuren staan in `app.js` bij `THEME_COLORS`.
+Pas `data/initiatieven.csv` aan met deze kolommen:
 
-## Delen met iemand anders
+`titel, omschrijving, provincie, plaats, thema, lat, lng, url, zichtbaar`
 
-Je kunt deze map als zipbestand delen. De ontvanger kan `index.html` direct openen.
+`zichtbaar` mag `ja` of `nee` zijn.
 
-Eventueel kan de ontvanger de demo ook lokaal draaien met:
+## Themakleuren
 
-```bash
-python3 -m http.server 8080
-```
+De marker-kleur komt uit de kolom `thema`. Kleuren staan in `app.js` bij `THEME_COLORS`.
 
-en daarna openen op:
+## GitHub Pages
 
-```text
-http://127.0.0.1:8080/
-```
+Gebruik een publieke repository, upload de bestanden naar de root, en zet Pages aan via:
 
-Voor een klikbare online demo kun je dezelfde bestanden ook uploaden naar bijvoorbeeld GitHub Pages, Netlify, Vercel of een gewone webserver. Let erop dat de Google Sheet als CSV publiek gepubliceerd moet zijn als je live data uit Google Drive wilt gebruiken.
+`Settings -> Pages -> Deploy from a branch -> main -> /root`
 
 ## Wit vlak in plaats van kaart
 
-Als filters en legenda zichtbaar zijn maar de kaart wit blijft, draait de demo wel, maar laden de kaarttegels waarschijnlijk niet. Mogelijke oorzaken:
+Als filters en legenda zichtbaar zijn maar de kaart wit blijft, worden kaarttegels waarschijnlijk geblokkeerd. Test:
 
-- `basemaps.cartocdn.com` wordt geblokkeerd door browser, adblocker, privacyfilter of bedrijfsnetwerk.
-- De browser blokkeert externe bronnen vanaf een lokaal geopend `file://` bestand.
-- Een CDN of tile-server is tijdelijk niet bereikbaar.
-
-Deze demo probeert automatisch terug te vallen van CARTO naar de standaard OpenStreetMap-tegels. Blijft de kaart toch wit, open dan de demo via een simpele lokale server of host hem op GitHub Pages/Netlify.
-
-## Google Sheet als backend
-
-1. Maak een Google Sheet met deze kolommen:
-
-   ```text
-   titel, omschrijving, provincie, plaats, thema, lat, lng, url, zichtbaar
-   ```
-
-2. Vul per initiatief een rij in.
-
-   `zichtbaar` mag `ja` of `nee` zijn. Rijen met `nee` worden niet getoond.
-
-3. Publiceer de sheet:
-
-   `Bestand` -> `Delen` -> `Publiceren op internet` -> kies het juiste tabblad -> kies `Door komma's gescheiden waarden (.csv)`.
-
-4. Kopieer de CSV-link.
-
-5. Zet die link in `app.js` bij:
-
-   ```js
-   googleSheetCsvUrl: "https://docs.google.com/spreadsheets/d/e/.../pub?output=csv"
-   ```
-
-Je kunt ook tijdelijk testen zonder code te wijzigen:
-
-```text
-index.html?data=https://docs.google.com/spreadsheets/d/e/.../pub?output=csv
+- `https://basemaps.cartocdn.com/light_all/8/132/83.png`
+- `https://tile.openstreetmap.org/8/132/83.png`
 ```
 
-## Coördinaten invullen
-
-Leaflet heeft latitude en longitude nodig. Voor beheerders zijn er drie gangbare opties:
-
-- Handmatig invullen via Google Maps of OpenStreetMap.
-- In de beheeromgeving een kaartprikker gebruiken.
-- Automatisch geocoden vanaf een adres via een aparte serverfunctie.
-
-Voor productie zou ik niet vanuit de browser bulk-geocoding doen. Dat is kwetsbaar voor quota, privacy en misbruik.
-
-## Productie-opmerkingen
-
-- Gebruik hover plus klik/tap; hover werkt niet op mobiel.
-- Ontsnap HTML in pop-ups. Dit voorbeeld doet dat in `escapeHtml`.
-- Publiceer alleen data die openbaar mag zijn. Een gepubliceerde Google Sheet is publiek leesbaar.
-- Als de dataset groter of gevoeliger wordt, stap dan over op een echte CMS/API-laag zoals Directus, Strapi, WordPress, Supabase of een eigen backend.
+De blokkade zit nu op filesystemniveau, niet in de README zelf. Heropenen van de map/project in Codex of Codex toegang geven tot deze map zou dit moeten oplossen.
