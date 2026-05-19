@@ -1,4 +1,3 @@
-```md
 # Interactieve kaartdemo
 
 Deze demo toont initiatieven in Friesland, Groningen en Drenthe op een interactieve Leaflet-kaart.
@@ -35,5 +34,4 @@ Als filters en legenda zichtbaar zijn maar de kaart wit blijft, worden kaarttege
 
 - `https://basemaps.cartocdn.com/light_all/8/132/83.png`
 - `https://tile.openstreetmap.org/8/132/83.png`
-```
 
